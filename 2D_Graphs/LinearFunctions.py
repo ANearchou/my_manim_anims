@@ -1,4 +1,5 @@
 from manimlib.imports import *
+import random
 
 class Lines(Scene):
     def construct(self):
@@ -151,7 +152,7 @@ class PointsOnLine(GraphScene):
 
 
 
-class test(Scene):
+class EquationTransform(Scene):
     CONFIG = {
             "y_min" : -7,
             "y_max" : 7,
@@ -183,3 +184,74 @@ class test(Scene):
         
         self.wait(2)
 
+
+
+
+
+class test(Scene):
+    def construct(self):
+        # SETUP GRAPH
+        pairs = [(2,1),(2,3),(1.5,-2),(-0.3,-2.2),(-0.1,-2.2),(1,1)]
+        axes = Axes()
+        slope_tracker = ValueTracker(1)
+        constunt_tracker = ValueTracker(0)
+
+        func = lambda a,b: lambda x: a * x + b
+        graph = VMobject()
+        graph_kwargs = {"color": GREEN}
+        # SETUP FORMULA
+        formula = TexMobject("y = ", "x ")
+        formula.to_corner(UL)
+        formula[1].shift(RIGHT*1.5)
+        slope = DecimalNumber(1,num_decimals=1, include_sign = True)
+        slope.next_to(formula[1], LEFT, buff = 0.1, aligned_edge = DOWN)
+        constunt = DecimalNumber(0,num_decimals=1, include_sign = True)
+        constunt.next_to(formula[1], RIGHT, buff = 0.2, aligned_edge = DOWN)
+        grp = VGroup(formula, slope, constunt)
+        initial_formula = TexMobject("y = x")
+        initial_formula.to_corner(UL)
+        
+
+        # SET UPDATERS
+        def update_graph(mob):
+            mob.become(
+                axes.get_graph(
+                    func(slope_tracker.get_value(), constunt_tracker.get_value()),
+                    **graph_kwargs
+                )
+            )
+        # SET INITIAL STATE OF GRAPH
+        update_graph(graph)
+        graph.add_updater(update_graph)
+        self.add(axes)
+        self.play(ShowCreation(graph),Write(initial_formula))
+        self.wait(2)
+        self.play(ReplacementTransform(initial_formula, grp))
+        self.wait()
+
+        ind = range(7,1,-1)
+        for i in ind:
+            self.play(
+                slope_tracker.set_value, pairs[ind[i-2]-2][0],
+                constunt_tracker.set_value, pairs[ind[i-2]-2][1],
+                ChangeDecimalToValue(slope,pairs[ind[i-2]-2][0]),
+                ChangeDecimalToValue(constunt,pairs[ind[i-2]-2][1]),
+                run_time = (i-1)/2
+            )
+            self.wait(1.2 - (ind[i-2]-1)/9)
+        self.wait(4)    
+
+        random.seed(1)
+        new_pairs = [(round(random.normalvariate(0,3),2), round(random.normalvariate(0,3),2)) for i in range(11)]
+        for i in range(len(new_pairs)):
+            self.play(
+                slope_tracker.set_value, new_pairs[i][0],
+                constunt_tracker.set_value, new_pairs[i][1],
+                ChangeDecimalToValue(slope,new_pairs[i][0]),
+                ChangeDecimalToValue(constunt,new_pairs[i][1]),
+                run_time = 0.05
+            )
+            self.wait(0.05)
+
+
+        
