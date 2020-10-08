@@ -242,16 +242,73 @@ class test(Scene):
         self.wait(4)    
 
         random.seed(1)
-        new_pairs = [(round(random.normalvariate(0,3),2), round(random.normalvariate(0,3),2)) for i in range(11)]
+        new_pairs = [(round(random.normalvariate(0,3),2), round(random.normalvariate(0,3),2)) for i in range(20)]
+        new_pairs.append((2,1))
         for i in range(len(new_pairs)):
             self.play(
                 slope_tracker.set_value, new_pairs[i][0],
                 constunt_tracker.set_value, new_pairs[i][1],
                 ChangeDecimalToValue(slope,new_pairs[i][0]),
                 ChangeDecimalToValue(constunt,new_pairs[i][1]),
-                run_time = 0.05
+                run_time = 0.2
             )
-            self.wait(0.05)
+            self.wait(0.1)
 
 
-        
+        self.wait(2)
+
+
+        def outer_func(x):
+            return 2*x+1
+
+        # func = self.get_graph(lambda x: 2*x+1,
+        #                      color = RED)
+        # self.play(ShowCreation(func),
+        #           run_time = 1)
+        # self.wait()
+
+        dot = Dot().move_to(self.coords_to_point(-4, outer_func(-4)))
+        self.play(FadeIn(dot), run_time = 2)
+        self.wait()
+
+        x_projection = DashedLine(self.coords_to_point(-4, outer_func(-4)),
+                                  self.coords_to_point(-4, 0)
+                                  ).set_color(YELLOW)
+        y_projection = DashedLine(self.coords_to_point(-4, outer_func(-4)),
+                                  self.coords_to_point(0, outer_func(-4))
+                                  ).set_color(YELLOW)
+
+        self.play(Write(x_projection),
+                  Write(y_projection))
+        self.wait()
+
+
+
+
+
+
+
+
+class ttest(Scene):
+    def construct(self):
+        # t = ValueTracker(1)
+        l = DecimalNumber(1, num_decimals = 2, include_sign = True)
+        l2 = DecimalNumber(2, num_decimals = 2, include_sign = True)
+        l2.next_to(l, RIGHT, buff = 1)
+
+        self.play(Write(l), Write(l2))
+        self.wait()
+        self.play(ChangeDecimalToValue(l,2),
+                  ChangeDecimalToValue(l2, 3))
+
+        l_cp = l.copy()
+        l2_cp = l2.copy()
+
+        self.add(l_cp, l2_cp)
+        self.wait()
+
+        self.play(l.shift, DOWN,
+                  l2.shift, DOWN,
+                  l_cp.shift, 2*DOWN,
+                  l2_cp.shift, 2*DOWN)
+        self.wait(2)
