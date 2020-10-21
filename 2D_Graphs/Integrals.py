@@ -1,24 +1,6 @@
 from manimlib.imports import *
 import numpy as np
 
-class Integral2(Scene):
-    
-    def construct(self):
-        axes_kwargs = {
-            "x_min" : -1,
-            "x_max" : 7,
-            "y_min" : -1,
-            "y_max" : 7,
-            "axes_center" : 3*LEFT + 3*DOWN
-        }
-        function = lambda x: 2*np.sin(0.7*x-1)+2
-        function_kwargs = {"x_min" : 0.5,
-                           "x_max" : 4.25}
-
-        axes = Axes(**axes_kwargs)
-        self.play(ShowCreation(axes))
-        self.wait()
-
 class Integral(GraphScene):
     CONFIG = {
             "x_min" : -1,
