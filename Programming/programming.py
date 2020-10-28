@@ -255,3 +255,45 @@ class BubbleSort1(Scene):
 
 
                     
+from manimlib.imports import *
+
+class BSPythonCode(Scene):
+    def construct(self):
+        
+        line0 = TextMobject("x = [4,3,2,9,2,1,6]",
+                            tex_to_color_map={"4": GREEN, "3": GREEN,"2": GREEN, "1": GREEN,"6": GREEN,"9": GREEN}).move_to(3*UP)
+
+        line1 = TextMobject("for i in range(6,-1,-1):",
+                            tex_to_color_map={"for": PINK, "in": PINK," range": YELLOW, "6": GREEN,"1": GREEN})
+        line1.next_to(line0, DOWN, buff=0.5, aligned_edge=LEFT)
+
+        line2 = TextMobject("···for j in range(i):",
+                            tex_to_color_map={"···": GREY, "for": PINK,"in": PINK," range": YELLOW})
+        line2.next_to(line1, DOWN, buff=0.15, aligned_edge=LEFT)       
+
+        line3 = TextMobject("······if x[j] > x[j+1]:",
+                            tex_to_color_map={"······": GREY, "if": PINK,"1": GREEN})
+        line3.next_to(line2, DOWN, buff=0.15, aligned_edge=LEFT) 
+
+        line4 = TextMobject("·········temp = x[j]",
+                            tex_to_color_map={"·········": GREY})
+        line4.next_to(line3, DOWN, buff=0.15, aligned_edge=LEFT) 
+
+        line5 = TextMobject("·········x[j] = x[j+1]",
+                            tex_to_color_map={"·········": GREY,"1": GREEN})
+        line5.next_to(line4, DOWN, buff=0.15, aligned_edge=LEFT) 
+
+        line6 = TextMobject("·········x[j+1] = temp",
+                            tex_to_color_map={"·········": GREY,"1": GREEN})
+        line6.next_to(line5, DOWN, buff=0.15, aligned_edge=LEFT) 
+
+        self.play(Write(line0))
+        self.play(Write(line1))
+        self.play(Write(line2))
+        self.play(Write(line3))
+        self.play(Write(line4))
+        self.play(Write(line5))
+        self.play(Write(line6))
+        self.wait()
+
+     

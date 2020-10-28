@@ -6,7 +6,7 @@ class Integral(GraphScene):
             "x_min" : -1,
             "x_max" : 7,
             "y_min" : -1,
-            "y_max" : 7,
+            "y_max" : 32,
             "grapg_origin" : 3*LEFT + 3*DOWN,
             "x_axis_label" : None,
             "y_axis_label" : None
@@ -14,7 +14,7 @@ class Integral(GraphScene):
     def construct(self):
         
         # OPTIONS
-        definition_bounds = [1.5, 4.5]
+        definition_bounds = [0.5, 5.5]
         function_kwargs = {"x_min" : 0.5,
                            "x_max" : 5.5,
                            "color" : GREEN}
@@ -26,7 +26,8 @@ class Integral(GraphScene):
             for i in range(1,n+1): 
                 f = f * i
             return f
-        function = lambda x: 4+(x-3)-(x-3)**3/fact(3)+(x-3)**5/fact(5)
+        #function = lambda x: 4+(x-3)-(x-3)**3/fact(3)+(x-3)**5/fact(5)
+        function = lambda x: x**2
         
         self.setup_axes(animate = True)
         self.wait()
@@ -36,7 +37,7 @@ class Integral(GraphScene):
         self.play(ShowCreation(func))
         self.wait()
 
-        for i in [2**ii for ii in range(1,7)]:
+        for i in [2**ii for ii in range(1,9)]:
             partition_length = (definition_bounds[1] - definition_bounds[0])/i
             partition_points = []
             for j in range(0,i+1):
