@@ -254,8 +254,6 @@ class BubbleSort1(Scene):
 
 
 
-                    
-from manimlib.imports import *
 
 class BSPythonCode(Scene):
     def construct(self):
